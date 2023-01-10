@@ -1,8 +1,6 @@
-## markdown 語法
+# ✏️ Markdown 語法
 
----
-
-### 標題
+## 標題
 
 ```
 語法：
@@ -22,7 +20,7 @@
 ## This is H2 with two classes {.class1 .class2}
 ```
 
-### 強調
+## 強調
 
 _斜體_
 `語法：*斜體* 或 _斜體_`
@@ -31,9 +29,9 @@ _斜體_
 ~~刪除~~
 `語法：~~刪除~~ 或 <del>刪除</del>`
 
-### 列表
+## 列表
 
-###### 無序列表
+#### 無序列表
 
 - Red
 - Green
@@ -54,7 +52,7 @@ _斜體_
 - Blue
 ```
 
-###### 有序列表
+#### 有序列表
 
 ```
 語法：
@@ -65,7 +63,7 @@ _斜體_
    2. watermelon
 ```
 
-### 任務列表
+## 任務列表
 
 - [x] Today
 - [x] Yesterday
@@ -78,7 +76,7 @@ _斜體_
 - [ ] Tomorrow
 ```
 
-### 水平線
+## 水平線
 
 ---
 
@@ -86,9 +84,9 @@ _斜體_
 語法：*** 或 --- 或 ___
 ```
 
-### 超連結
+## 超連結
 
-###### 外部連結
+#### 外部連結
 
 [GitHub](https://github.com)
 
@@ -114,21 +112,21 @@ Login by [Google][1] or [FaceBook][2] or [Apple][3].
 [3]: http://apple.com/     "Apple"
 ```
 
-### 添加圖片
+## 添加圖片
 
 ```
 語法：
 ![GitHub logo](https://github.com/gitlogo.jpg "git圖示")
 ```
 
-### 添加影片
+## 添加影片
 
 ```
 語法：
 <iframe src="https://www.youtube.com/embed/GIP0j4oRMWc" width="420" height="315"></iframe>
 ```
 
-### 區塊
+## 區塊
 
 `小區塊用一個` `
 
@@ -136,7 +134,7 @@ Login by [Google][1] or [FaceBook][2] or [Apple][3].
 大區塊用三個```
 ````
 
-### 引用
+## 引用
 
 > 可以放引言或是
 >
@@ -148,7 +146,7 @@ Login by [Google][1] or [FaceBook][2] or [Apple][3].
 >>當作縮排(有階層)
 ```
 
-### 表格
+## 表格
 
 | Header 1 | Header2 |
 | -------- | ------- |
@@ -163,9 +161,9 @@ A        | B
 C        | D
 ```
 
-### 代碼塊
+## 代碼塊
 
-###### 語法高亮
+#### 語法高亮
 
 ```js
 function sayHi() {
@@ -182,7 +180,7 @@ function sayHi(){
 ```
 ````
 
-###### 代碼行數
+#### 代碼行數
 
 ```js {.line-numbers}
 function sum(a, b) {
@@ -199,7 +197,7 @@ function sum(a, b) {
 ```
 ````
 
-###### 高亮代碼行數
+#### 高亮代碼行數
 
 ```js {highlight=[2-3,5]}
 function rgbToHex(r, g, b) {
@@ -222,7 +220,7 @@ function rgbToHex(r, g, b) {
 ```
 ````
 
-### 參考
+## 參考
 
 - [Basic formatting Syntax](https://docs.github.com/zh/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - [Markdown 基本要素](https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-tw/markdown-basics)
