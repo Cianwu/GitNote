@@ -2,16 +2,15 @@
 
 #### 基本指令
 
-| Command    | Description             | 描述                                     | example                         |
-| ---------- | ----------------------- | ---------------------------------------- | ------------------------------- |
-| **cd**     | Change Directory        | 改變目前所在的資料夾                     | **cd** _Desktop_                |
-| **cd ..**  |                         | 移動到上一層的資料夾                     | **cd ..**                       |
-| **cd ~**   |                         | 回到根目錄                               | **cd ~** _~/project/namecards/_ |
-| **ls**     | List files              | 將所在的資料夾裡的內容顯示成清單         | **ls**                          |
-| **ls -al** | List files all          | 列出更詳細的資訊 (包括隱藏檔案)          | **ls -al**                      |
-| **pwd**    | Print Working Directory | 目前所在的資料夾                         | **pwd**                         |
-| **clear**  |                         | 清空 Terminal 版面                       | **clear**                       |
-| **man**    | Manual                  | 不確定某指令有哪些參數可以使用時可以參考 | **man** ,**man ls**             |
+| Command    | Description             | 描述                                     | example             |
+| ---------- | ----------------------- | ---------------------------------------- | ------------------- |
+| **cd**     | Change Directory        | 改變目前所在的資料夾                     | **cd** _Desktop_    |
+| **cd ..**  |                         | 移動到上一層的資料夾                     | **cd ..**           |
+| **ls**     | List files              | 將所在的資料夾裡的內容顯示成清單         | **ls**              |
+| **ls -al** | List files all          | 列出更詳細的資訊 (包括隱藏檔案)          | **ls -al**          |
+| **pwd**    | Print Working Directory | 目前所在的資料夾                         | **pwd**             |
+| **clear**  |                         | 清空 Terminal 版面                       | **clear**           |
+| **man**    | Manual                  | 不確定某指令有哪些參數可以使用時可以參考 | **man** ,**man ls** |
 
 #### 檔案指令
 
