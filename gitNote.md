@@ -19,8 +19,10 @@
 
 ### git config
 
-- **列出 Git 設定：** \* 指令：「`git config --list`」
-  <br>
+- **列出 Git 設定：**
+
+  - 指令：「`git config --list`」
+    <br>
 
 - **打開 Git 設定文件檔：** 打開 Git 相關設定文件檔 ( 直接設定 user.name 或 user.email，也可以設定指令縮寫 )
   - 指令：「`open git ~/.config`」
@@ -31,9 +33,10 @@
   <br>
 
 - **單行顯示 Commit 訊息、版本號：**
-  _ 指令：「`git log --oneline --graph`」
-  _ 縮寫：`git l`
-  <br>
+
+  - 指令：「`git log --oneline --graph`」
+  - 縮寫：`git l`
+    <br>
 
 - **單行顯示 Commit 訊息、提交者、提交時間、版本號：**
   - 指令：「`git log --oneline --graph --pretty=format:"%h <%an> %ar %s"`」
@@ -256,16 +259,26 @@
 - **修改 Commit 歷史訊息：**
 
   - 先執行 `git log` ( 或 `git l`、`git ls`) 找出要修改的 `commit版本號`
-  - 執行「`git rebase -i` `commit版本號`」後會進到`VIM`編輯器，會看到從目前～ `commit版本號`的這個區間的 Commit
-  -
+  - 接著執行「`git rebase -i` `commit版本號`」進到 **VIM 編輯器**
+  - 如果出現 `error: cannot rebase: You have unstaged changes.` 表示從上次 Commit 後還有再修改過檔案尚未進行 Commit。
+  - **VIM 編輯器**裡的畫面：
+    ```
+    pick 82ba243 docs: 新增註解
+    pick 7c58e24 add note.md
+    pick b312ae8 init commit
+    ```
+  - 要修改 Commit 的那行 `pick` 改成 `reword` 或是 `r` ，修改完存檔離開
+  - 接著會自動跳到修改訊息的畫面，如果有多個 Commit 要修改的話，需修改完一個存檔離開才會再跳下一個，修改完存檔離開
+  - 可以到 **SourceTree** 看一下歷史紀錄是否修改成功
 
   ##### VIM 編輯器操作方式：
 
   - 輸入 `i` 、`a`、 `o` ：任一皆可進入編輯模式 `(Insert)`
   - 輸入 `:w`：存檔，輸入 `:q`：離開，輸入 `:wq`：存檔後離開
   - 按下 `ESC` 鍵可以從編輯模式 `(Insert)` 切換到命令模式 `(Normal)`
+    <br>
 
-- **合併 Commit 指令：**
+- **取消修改 Commit 歷史訊息：** 如果想要取消剛剛操作的 Rebase 的話，只要執行「`git reset ORIG_HEAD --hard`」就可以復原剛剛的操作，取消修改 Commit 歷史訊息了。
 
 ---
 
@@ -286,13 +299,41 @@
 
 ## GitHub 指令
 
-#### 設定
+- **GitHub 上建立新專案：**
+  - 「`Create repository`」即可新增一個新的專案
+  - 選擇要「`HTTPS`」或是「`SSH`」來當作 GitHub 伺服器位置，選擇 SSH 需要設定 SSH Key
+  - GitHub 伺服器位置大概像這樣：
+    ```
+    HTTPS：https://github.com/Cianwu/GitNote.git
+    SSH：git@github.com:Cianwu/GitNote.git
+    ```
 
-| 指令                            | 描述                         | 說明                              |
-| ------------------------------- | ---------------------------- | --------------------------------- |
-| **git clone**                   |                              |                                   |
-| **git remote add** _origin url_ | 將本地儲存庫連線到遠端伺服器 | `url : http://github.com/....git` |
-| **git push**                    |                              |                                   |
-| **git **                        |                              |                                   |
-| **git **                        |                              |                                   |
-| **git **                        |                              |                                   |
+### git remote
+
+- **新增遠端遙控：** GitHub 遠端與本地專案庫 ( local repo ) 連結
+
+  - 指令：「`git remote add origin` `GitHub伺服器位置`」
+    <br>
+
+- **取消遠端遙控：** 取消 GitHub 遠端與本地專案庫 ( local repo ) 的連結
+  - 指令：「`git remote remove origin`」
+
+### git push
+
+- **幫本地專案庫的分支設定遠端分支：** 加上參數 `-u` ( upstream ，上游的意思)，之後 Git 就會知道要推往哪個遠端分支。
+
+  - 指令：「`git push -u` _origin main_」，把本地 `main` 分支的遠端分支名稱設定成 `main`， 如果 `origin` 遠端已經有叫 `main` 的遠端分支，會更新 `main` 的最新進度。
+    <br>
+
+- **不想要遠端分支與本地分支同名：** - 指令：「`git push -u` _origin main:cat_」，把本地 `main` 分支的遠端分支名稱設定成 `cat`
+  <br>
+
+- **把本地專案庫推到 GitHub 上：**
+  - 如果本地分支之前已經設定過遠端分支，在推送時只要執行「`git push`」即可。
+
+### git pull
+
+- **將遠端分支資料拉回並合併本地分支：** 如果有在 GitHub 上編輯過分支，或是 GitHub 遠端的進度比本地的新，都會造成推送不上去的情況，這時候就要先拉、再併、後推。
+  - 先執行「`git pull original` `遠端分支名`」將遠端的分支拉下來
+  - 執行「`git checkout -b` `新的本地分支名`」切換到一個新的本地分支
+  - 最後執行「`git pull`」與本地分支進行合併
