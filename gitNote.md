@@ -105,22 +105,28 @@
 ### git commit
 
 - **儲存版本紀錄：** 將暫存區的檔案紀錄成一個版本，執行 Commit 後會由`SHA-1`演算法生成一串 40 個 16 進位的代碼。
+
   - 指令：「`git commit -m` "_message_"」
   - 文件狀態：**unchanged**
   - 文件位置：**Local Repository** ( 儲存庫 )
+    <br>
+
+- **修改 Commit 訊息：** 此方法僅限用於修改最新的一筆 Commit ，如要修改歷史 Commit 紀錄，可參考 `git rebase` 方法。
+  - 指令：「`git commit --amend -m` _"message"_」
+  - 雖然說是修改，但 `commit版本號` 跟原本的是不同的，修改只是將原本的 Commit 隱藏起來，生成一個訊息不同但內容時間都相同的一個 Commit。
 
 ### git rm
 
 - **讓 Git 幫忙刪除文件：** 對 Git 來說刪除也是一種修改，準備刪除的檔案會被加入暫存區等待 Commit 時刪除。
 
-  - 指令：「`git rm`」
+  - 指令：「`git rm` _myfile_」
   - 文件狀態：**staged**
   - 文件位置：**Staging Area** ( 暫存區 )
     <br>
 
 - **取消文件的 Git 版本控制 ：** 檔案如果不再需要版本控制，可將檔案恢復成未追蹤的狀態。
 
-  - 指令：「`git rm --cached`」
+  - 指令：「`git rm --cached` _myfile_」
   - 文件狀態：**untracked**
   - 文件位置：**Work Directory** ( 工作目錄 )
     <br>
@@ -134,6 +140,17 @@
   - 指令：「`git mv` _myfile newfile_」
   - 文件狀態：**renamed**
   - 文件位置：**Work Directory** ( 工作目錄 )
+
+### .gitignore
+
+- **忽略那些不需要被 Git 版控的檔案：** 比較機密、程式編譯的中間檔或暫存檔不需要由 Git 版控的，只要在專案目錄裡放一個 `.gitignore ` 檔案，並設定忽略規則。
+
+  - 指令：「`touch .gitignore`」
+  - 打開進行編輯：「`open .gitignore`」
+  - 編輯忽略規則： - 忽略某個檔案：「`myfile.txt`」 - 忽略某個資料夾的某個檔案：「`myfolder/myfile.txt`」 - 忽略副檔名為 .txt 的檔案：「`*.txt`」
+    <br>
+
+- **忽略無效：** 在 `.gitignore ` 檔案建立前就被 Git 追蹤的檔案不受忽略規則限制，可以執行「`git rm --cached` _myfile_」讓文件不再受 Git 版控後再進行忽略。
 
 ---
 
@@ -175,9 +192,9 @@
     <br>
 
 - **誤刪分支時：** 分支只是一個指向某個 Commit 的指標，刪除分支並不會造成 Commit 消失。
-  _ 先執行 `git reflog` 或 `git log -g` 確認哪一個 Commit 要重新加上分支標籤。
-  _ 執行 「`git branch` _branchName_ `commit版本號`」即可將 _branchName_ 加到 Commit 上。
-  <br>
+  - 先執行 `git reflog` 或 `git log -g` 確認哪一個 Commit 要重新加上分支標籤。
+  - 執行 「`git branch` _branchName_ `commit版本號`」即可將 _branchName_ 加到 Commit 上。
+    <br>
 
 ### git checkout
 
@@ -188,9 +205,22 @@
 ### git merge
 
 - **合併分支：** 把分支合併到`HEAD`所在的分支上，合併後會自動新增一個 Commit，可以用 `git log` 查看版本紀錄。
-  - 指令：「`git merge` _branchName_」
 
-<br>
+  - 指令：「`git merge` _branchName_」
+    <br>
+
+- **顯示合併分支線圖 ( [SourceTree 圖形介面工具](https://git-scm.com/downloads/guis) )：** 在 SourceTree 中想要顯示合併分支的線圖 ( 類似小耳朵 )，可以讓 Git 取消快轉模式（ Fast Forward ）來進行合併。
+
+  - 指令：「`git merge` _branchName_ `--no-ff`」
+    <br>
+
+- **合併後的分支要刪除嗎?** 可以刪除也可以保留，分支只是一個指向某個 Commit 的指標，當合併過後就沒有作用了，刪除分支也不會造成 Commit 被刪除，即使誤刪分支也能再加回來。
+  <br>
+- **合併發生衝突：** 同一份檔案中修改到同一行或多行的程式碼，Git 無法判別哪一些是要留下的，這時就需要手動選擇要留下哪些部分。
+  - 合併時發生衝突，終端機出現 `CONFLICT`
+  - 開啟有衝突的檔案進行手動選擇，修改完成後刪除 Git 的提示文字
+  - 重新將檔案 `git add` _myfile_
+  - 執行 Commit：「`git commit -m "conflict fixed"`」
 
 ---
 
@@ -198,31 +228,44 @@
 
 ### git reset
 
-- **前往某個 Commit 版本：** 此操作會將檔案狀態回復到該版本時的檔案狀態，如果執行 `git log`會發現在這個版本之後的 Commit 都被隱藏起來了。如果要查看被隱藏的 `HEAD` 移動紀錄，可以執行 `git reflog` 或 `git log -g`。
-  - 指令：「`git reset` `commit版本號`」直接前往該版本。
-  - 指令：「`git reset HEAD^`」前往目前 `HEAD`的前一個版本。
+- **前往 ( 拆掉、重做 ) 某個 Commit 版本：**
+  - 先執行 `git log --oneline` 查看要前往哪一個 Commit。
+  - 選擇其一模式：**mixed、soft、hard** 模式。
+  - 選擇前往**相對**版本或**絕對**版本：
+    - 指令：「`git reset` `commit版本號`」直接前往該版本。
+    - 指令：「`git reset HEAD^`」前往目前 `HEAD`所在的前一個版本。
+    - 指令：「`git reset` _branchName_`^`」前往 _branchName_ 分支的前一個版本。
+  - 不同的 `git reset` 模式會讓拆出來的檔案狀態不同，如果執行 `git log`會發現我們前往的這個版本後續的 Commit 都被隱藏起來了。
+  - 如果要查看被隱藏的 `HEAD` 移動紀錄，可以執行 `git reflog` 或 `git log -g`，`git reflog`預設保留 30 天的紀錄。
 
-#### 重做 Commit 指令
+<br>
 
-- 執行 `git reset` 可以前往代碼 _SHA-1_ 的 Commit 版本，在代碼 _SHA-1_ 版本之後建立的 Commit 會被 Git 隱藏起來。
-- 執行 `git reflog` 或 `git log -g` 可以查看所有 `HEAD` 移動紀錄。
+- **救回被 Reset 掉的 Commit：** 執行 `git reset`並不會造成 Commit 被刪除，只是 Commit 被隱藏起來、拆掉的檔案被放置在工作目錄而已，只要像上述步驟前往 Reset 前的 Commit 即可。
+  <br>
 
-| 指令                             | 模式                | 檔案狀態     | 工作目錄 | 暫存區 |
-| -------------------------------- | ------------------- | ------------ | -------- | ------ |
-| **git reset** _SHA-1_            | mixed 模式 (預設值) | 回到工作目錄 | 不變     | 丟掉   |
-| **git reset** _SHA-1_ **--soft** | soft 模式           | 回到暫存區   | 不變     | 不變   |
-| **git reset** _SHA-1_ **--hard** | hard 模式           | 被直接丟掉   | 丟掉     | 丟掉   |
+- **Reset 的三種模式**
 
-#### 合併 Commit 指令
+| 指令                                    | 模式                | 檔案狀態     | 工作目錄 | 暫存區 |
+| --------------------------------------- | ------------------- | ------------ | -------- | ------ |
+| **git reset** `commit版本號`            | mixed 模式 (預設值) | 回到工作目錄 | 不變     | 丟掉   |
+| **git reset** `commit版本號` **--soft** | soft 模式           | 回到暫存區   | 不變     | 不變   |
+| **git reset** `commit版本號` **--hard** | hard 模式           | 被直接丟掉   | 丟掉     | 丟掉   |
 
-- 先執行 `git log` ( 或 `git l`、`git ls`) 確認哪幾個 Commit 要合併
-- 執行 `git rebase -i` _SHA-1_ 後會進到`VIM`編輯器，會看到從目前～ _SHA-1_ 的這個區間的 Commit
+### git rebase
+
+- **修改 Commit 歷史訊息：**
+
+  - 先執行 `git log` ( 或 `git l`、`git ls`) 找出要修改的 `commit版本號`
+  - 執行「`git rebase -i` `commit版本號`」後會進到`VIM`編輯器，會看到從目前～ `commit版本號`的這個區間的 Commit
+  -
 
   ##### VIM 編輯器操作方式：
 
   - 輸入 `i` 、`a`、 `o` ：任一皆可進入編輯模式 (Insert)
   - 輸入 `:w`：存檔，輸入 `:q`：離開，輸入 `:wq`：存檔後離開
   - 按下 `ESC` 鍵可以從編輯模式 `(Insert)` 切換到命令模式 `(Normal)`
+
+- **合併 Commit 指令：**
 
 ---
 
